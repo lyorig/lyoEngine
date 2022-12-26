@@ -1,0 +1,13 @@
+Command-line arguments:
+1. C:\Users\petri\Desktop\Projects (C++)\lyoEngine\bin\lyoEngine.exe
+
+Monitor table
+#	X	Y	Width	Height
+1	0	0	1920	1080
+2	1920	0	1920	1080
+
+Creating window on monitor #1
+Monitor resolution: 1920x1080
+Refresh rate: 60hz
+
+Exiting. Last SDL error: (none)

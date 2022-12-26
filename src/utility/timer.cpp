@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "algorithm.h"
 
-const lyo::u32 lyo::Timer::s_freq
+const lyo::u32 lyo::Timer::m_freq
 {
 	[]() {
 		LARGE_INTEGER li;
@@ -34,13 +34,13 @@ lyo::Timer& lyo::Timer::reset() noexcept
 /* Addition / subtraction functions. */
 lyo::Timer& lyo::Timer::operator+=(double time) noexcept
 {
-	m_startedAt -= lyo::Cast::Signed<lyo::i64>(time * s_freq);
+	m_startedAt -= lyo::Cast::Signed<lyo::i64>(time * m_freq);
 	return *this;
 }
 
 lyo::Timer& lyo::Timer::operator-=(double time) noexcept
 {
-	m_startedAt += lyo::Cast::Signed<lyo::i64>(time * s_freq);
+	m_startedAt += lyo::Cast::Signed<lyo::i64>(time * m_freq);
 	return *this;
 }
 
@@ -49,7 +49,7 @@ lyo::Timer& lyo::Timer::operator-=(double time) noexcept
 /* Returns the elapsed time. */
 lyo::Timer::operator double() SAFE
 {
-	return SC<double>(this->get_tick() - m_startedAt) / s_freq;
+	return SC<double>(this->get_tick() - m_startedAt) / m_freq;
 }
 
 

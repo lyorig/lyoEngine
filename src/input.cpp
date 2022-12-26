@@ -1,5 +1,7 @@
 #include <SDL_events.h>
+
 #include "input.h"
+#include "engine.h"
 
 lyo::Input::Input() noexcept
 {
@@ -17,45 +19,23 @@ void lyo::Input::update() noexcept
 	const Uint8* kb_state	{ ::SDL_GetKeyboardState(&length) };
 	const Uint32 mouse_state{ ::SDL_GetMouseState(NULL, NULL) };
 
-	/* Keyboard input handling. */
+	/* Edit the array to also contain mouse presses. I shouldn't be
+	   doing this, as const_cast-ing is usually seen as bad (I think?) */
+	for (lyo::u16 i{ 1 }; i < 4; ++i)
+		CC<Uint8*>(kb_state)[i] = mouse_state & SDL_BUTTON(i);
+
+	/* The handling itself. */
 	for (int i{ 0 }; i < length; ++i)
 	{
-		if (kb_state[i])
+		if (kb_state[i] && !m_held[i])
 		{
-			if (!m_held[i])
-			{
-				m_pressed.set(i);
-				m_held.set(i);
-			}
-				
+			m_pressed.set(i);
+			m_held.set(i);	
 		}
-		else
+		else if (!kb_state[i] && m_held[i])
 		{
-			if (m_held[i])
-			{
-				m_held.reset(i);
-				m_released.set(i);
-			}
-		}
-	}
-
-	for (int i{ 1 }; i < 4; ++i)
-	{
-		if (mouse_state & SDL_BUTTON(i))
-		{
-			if (!m_held[i])
-			{
-				m_pressed.set(i);
-				m_held.set(i);
-			}
-		}
-		else
-		{
-			if (m_held[i])
-			{
-				m_held.reset(i);
-				m_released.set(i);
-			}
+			m_held.reset(i);
+			m_released.set(i);
 		}
 	}
 }

@@ -3,25 +3,20 @@
 #include "macros.h"
 #include "animated_texture.h"
 
-NAMESPACE_DECL(lyo, class Window)
-
 BEGIN_LYO_NAMESPACE
-class Entity
+class Entity : public AnimatedTexture
 {
-	lyo::AnimatedTexture	m_texture;
-	lyo::Coordinate			m_pos;
-
-	double m_scale;
+	lyo::Coordinate	m_pos; // 16b
 
 public:
 
-	Entity(lyo::Window& window, lyo::cstring filename, const lyo::Coordinate& position, const lyo::AnimatedTexture::InitList it, const lyo::Size::Texture& frame_size, double scale = 1.0) noexcept;
+	Entity(lyo::Window& window, lyo::c_string file_name, const lyo::AnimatedTexture::InitList it, const lyo::Size::Texture& frame_size, const lyo::Coordinate& position, double scale = 1.0, double time_to_update = lyo::Settings::Animation_TTU) noexcept;
 
-	virtual void update() = 0;
+	virtual void update() noexcept;
 
-	void set_position(const lyo::Coordinate& coord) noexcept;
-	void set_scale(double scale) noexcept;
+	void set_position(const lyo::Coordinate& position) noexcept;
 
-	lyo::Area::World hitbox() SAFE;
+	double x() SAFE;
+	double y() SAFE;
 };
 END_LYO_NAMESPACE

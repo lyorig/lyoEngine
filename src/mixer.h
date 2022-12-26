@@ -1,7 +1,13 @@
 #pragma once
 
+#include <SDL_mixer.h>
 #include <unordered_map>
+
+#include "music.h"
 #include "types.h"
+
+/* mixer.h:
+   A class that manages music and sound effect playback. */
 
 struct Mix_Chunk;
 
@@ -27,12 +33,13 @@ enum class Sound : lyo::u8
 BEGIN_LYO_NAMESPACE
 class Mixer
 {
-	std::unordered_map<Sound, Mix_Chunk*> m_sounds;
+	std::unordered_map<Sound, lyo::Chunk> m_sfx; // 80b
+
+	lyo::Music m_music; // 16b
 
 public:
 
-	Mixer(int frequency, Uint16 format, int channels, int chunksize) noexcept;
-	DISABLE_COPY_CTORS(Mixer);
+	Mixer(int frequency = MIX_DEFAULT_FREQUENCY, Uint16 format = MIX_DEFAULT_FORMAT, int channels = MIX_DEFAULT_CHANNELS, int chunksize = 2048) noexcept;
 
 	~Mixer();
 };

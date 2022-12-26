@@ -6,8 +6,9 @@
 BEGIN_LYO_NAMESPACE
 class Timer
 {
-	lyo::i64 m_startedAt;
-	static const lyo::u32 s_freq;
+	static const lyo::u32 m_freq; // (static) 4b
+
+	lyo::i64 m_startedAt; // 8b
 
 	lyo::i64 get_tick() SAFE;
 

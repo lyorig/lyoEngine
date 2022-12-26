@@ -1,62 +1,69 @@
 #pragma once
 
-#include <SDL_blendmode.h>
 #include <SDL_render.h>
+#include <SDL_blendmode.h>
+
 #include "types.h"
 #include "utility/slider.h"
+#include "utility/capsule.h"
 
 /* texture.h:
    Wrapper class for SDL_Texture. */
 
 struct SDL_Texture;
-NAMESPACE_DECL(lyo, class Window)
+NAMESPACE_DECL(lyo, class Window; class Surface)
 
 BEGIN_LYO_NAMESPACE
 class Texture
 {
-public: // For debug purposes - make these protected later!
+	lyo::Capsule<SDL_Texture, ::SDL_DestroyTexture> m_texture; // 16b
+	
+	lyo::Area::Texture m_area; // 8b - 16b
+	lyo::Size::Texture m_size; // 4b - 8b
 
+	double m_scale; // 8b
+	double m_angle; // 8b
+
+	SDL_RendererFlip m_flip; // 4b
+
+public: // For debug purposes - make this protected later!
+
+	static SDL_Texture* Create(const lyo::Window& window, const Surface& surface) noexcept;
+
+	/* This being const means that textures can't be reassigned to other windows... for now. */
 	const lyo::Window& m_window;
 
-	void set_area(const lyo::Area::Texture& area) noexcept;
-	void set_scale(double value) noexcept;
-	void set_blend_mode(SDL_BlendMode mode) SAFE;
-	void set_opacity(lyo::u8 value)			SAFE;
-	
+	void set_area(const Area::Texture& area)	noexcept;
+	void set_scale(double value)				noexcept;
+	void set_angle(double value)				noexcept;
+	void set_flip(SDL_RendererFlip flip)		noexcept;
 
-private:
+	/* Returns the area of the texture that is currently being drawn. */
+	const lyo::Area::Texture& area() SAFE;
 
-	static SDL_Texture* Create(const lyo::Window& window, lyo::Size::Texture& size, lyo::cstring filename) noexcept;
-
-	/* About the weird placement here. We can avoid having to use SDL_QueryTexture()
-	   by getting the size info from the surface while creating it. This is written
-	   to the "size" parameter in Texture::Create(). However, we must initialize it
-	   before the texture, or it'll get overwritten. */
-
-	lyo::Size::Texture m_size;
-
-	SDL_Texture* m_texture;
-
-	lyo::Area::Texture m_area;
-
-	double m_scale;
+	/* Returns the size of the entire texture, not just the current drawn area. */
+	const lyo::Size::Texture& size() SAFE;
 
 public:
 
-	lyo::Slider<double> opacity;
+	lyo::StaticSlider<double, 0.0, 255.0> opacity;
 
-	Texture(const lyo::Window& window, lyo::cstring filename, double scale = 1.0, SDL_BlendMode mode = SDL_BLENDMODE_BLEND) noexcept;
-	DISABLE_COPY_CTORS(Texture);
+	Texture(const lyo::Window& window, const lyo::Surface& surface, double scale = 1.0, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE) noexcept;
 
-	~Texture();
-
-	Texture& operator=(lyo::cstring filename) noexcept;
+	virtual void operator=(const lyo::Surface& surface) noexcept;
 	
 	virtual void update() SAFE;
-	void draw(const lyo::Coordinate& destination, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE) SAFE;
+	void draw(const lyo::Coordinate& destination) SAFE;
 
-	const lyo::SizeType::Texture	width()		SAFE;
-	const lyo::SizeType::Texture	height()	SAFE;
+	lyo::ST::Texture	width()		SAFE;
+	lyo::ST::Texture	height()	SAFE;
+	double					scale()		SAFE;
+	double					angle()		SAFE;
+	SDL_RendererFlip		flip()		SAFE;
+
+	/* Returns a coordinate such that using it with draw() will render
+	   the texture in the center of the window. */
+	lyo::Coordinate center() SAFE;
 
 	operator SDL_Texture* () SAFE;
 };

@@ -3,7 +3,9 @@
 #include <fstream>
 #include <vector>
 #include <SDL_error.h>
+
 #include "types.h"
+#include "settings.h"
 
 /* engine.h:
    The "engine" itself, which is responsible for initializing
@@ -11,7 +13,7 @@
    includes various system info, such as displays etc.
    
    It consists of 2 parts: a constructor and destructor, responsible for 
-   (de)initializing SDL, and static logging functions. */
+   (de)initializing SDL, and static logging/crash functions. */
 
 struct SDL_Rect;
 
@@ -23,10 +25,11 @@ class Engine
 public:
 
 	static std::ofstream Log;
-	static void Crash(lyo::cstring reason, lyo::cstring description = ::SDL_GetError()) noexcept;
 
-	Engine(unsigned init_flags) noexcept;
-	DISABLE_COPY_CTORS(Engine);
+	static void Crash(lyo::c_string reason, lyo::c_string description = ::SDL_GetError()) noexcept;
+
+	Engine(Uint32 init_flags) noexcept;
+	DELETE_COPY_CTORS(Engine);
 
 	~Engine();
 

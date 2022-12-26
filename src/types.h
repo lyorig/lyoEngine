@@ -3,9 +3,8 @@
 #include <cstdint>
 #include <ostream>
 #include <SDL_rect.h>
-#include <type_traits>
+
 #include "macros.h"
-#include "settings.h"
 #include "utility/concepts.h"
 
 /* types.h:
@@ -36,8 +35,8 @@ using u64 = std::uint64_t;	// 0 to 18,446,744,073,709,551,615
 
 using size = std::size_t;
 
-using cstring = const char*;
-using constcstring = const char* const;
+using c_string			= const char*;
+using const_c_string	= const char* const;
 
 
 
@@ -73,7 +72,7 @@ struct Point
 		};
 	}
 
-	friend std::ostream& operator<<(std::ostream& str, const Point<Number>& pt)
+	friend std::ostream& operator<<(std::ostream& str, const Point<Number>& pt) noexcept
 	{
 		str << '{' << pt.x << ", " << pt.y << '}';
 
@@ -117,7 +116,7 @@ struct Rectangle
 		};
 	}
 
-	friend std::ostream& operator<<(std::ostream& str, const Rectangle<Number>& rect)
+	friend std::ostream& operator<<(std::ostream& str, const Rectangle<Number>& rect) noexcept
 	{
 		str << '{' << rect.x << ", " << rect.y << ", " << rect.width << ", " << rect.height << '}';
 
@@ -131,32 +130,37 @@ using Coordinate = lyo::Point<double>;
 
 namespace Type
 {
-	using Rect = decltype(SDL_Rect::x);
+	using Rect	= decltype(SDL_Rect::x);
 	using FRect = decltype(SDL_FRect::x);
 }
 
-/* "Master control switches" for size types of objects. */
-namespace SizeType
+/* Size types of various objects. */
+namespace ST
 {
-	using Texture = lyo::u16;
-	using Window = lyo::u16;
-	using Level = double;
+	using Animation = lyo::u8;
+	using Music		= lyo::u8;
+
+	using Texture	= lyo::u16;
+	using Window	= lyo::u16;
+	using Font		= lyo::u16;
+
+	using Level		= double;
 }
 
 /* Dimensions of various objects, implemented with lyo::Point. */
 namespace Size
 {
-	using Texture = lyo::Point<lyo::SizeType::Texture>;	// The dimensions of a texture.
-	using Window = lyo::Point<lyo::SizeType::Window>;	// The dimensions of a window.
-	using Level	 = lyo::Point<lyo::SizeType::Level>;	// The dimensions of a level.
+	using Texture	= lyo::Point<lyo::ST::Texture>;	// The dimensions of a texture.
+	using Window	= lyo::Point<lyo::ST::Window>;	// The dimensions of a window.
+	using Level		= lyo::Point<lyo::ST::Level>;	// The dimensions of a level.
 }
 
 /* Areas of various objects, implemented with lyo::Rectangle. */
 namespace Area
 {
-	using Texture = lyo::Rectangle<lyo::SizeType::Texture>;	// An area of a texture.
-	using Window = lyo::Rectangle<lyo::SizeType::Window>;	// An area of a window.
-	using World = lyo::Rectangle<lyo::SizeType::Level>;		// An area in the game world.
+	using Texture	= lyo::Rectangle<lyo::ST::Texture>;	// An area of a texture.
+	using Window	= lyo::Rectangle<lyo::ST::Window>;	// An area of a window.
+	using World		= lyo::Rectangle<lyo::ST::Level>;	// An area in the game world.
 }
 
 template <typename Return_type, typename... Args>

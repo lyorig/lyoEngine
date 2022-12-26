@@ -2,5 +2,10 @@
 // such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 #define SC
+#define CC
+#define DC
+#define RC
 #define SAFE
-#define DISABLE_COPY_CTORS
+#define COMPILE_IF
+#define BEGIN_LYO_NAMESPACE namespace lyo {
+#define DELETE_COPY_CTORS(class_name) class_name(const class_name&) = delete; class_name& operator=(const class_name&) = delete;

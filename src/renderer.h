@@ -1,6 +1,7 @@
 #pragma once
 
 #include "macros.h"
+#include "utility/capsule.h"
 
 /* renderer.h:
    Wrapper class for SDL_Renderer. */
@@ -13,14 +14,11 @@ class Renderer
 {
 	static SDL_Renderer* Create(lyo::Window& window, unsigned flags) noexcept;
 
-	SDL_Renderer* p_renderer;
+	lyo::Capsule<SDL_Renderer, ::SDL_DestroyRenderer> p_renderer; // 16b
 
 public:
 
 	Renderer(lyo::Window& window, unsigned flags) noexcept;
-	DISABLE_COPY_CTORS(Renderer);
-
-	~Renderer();
 
 	void present()	SAFE;
 	void clear()	SAFE;

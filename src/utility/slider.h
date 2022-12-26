@@ -1,19 +1,20 @@
 #pragma once
 
-#include "algorithm.h"
+
 #include "concepts.h"
-#include "../settings.h"
+#include "algorithm.h"
 #include "../types.h"
-#include "../macros.h"
+#include "../settings.h"
 
 BEGIN_LYO_NAMESPACE
 template <lyo::Arithmetic Slider_type>
 class Slider
 {
-	Slider_type m_value, m_min, m_max;
+	Slider_type m_value, m_min, m_max; // sizeof(Slider_type) * 3b
 
 public:
-	constexpr Slider(Slider_type value, Slider_type lower_bound, Slider_type upper_bound) noexcept :
+
+	constexpr Slider(Slider_type lower_bound, Slider_type upper_bound, Slider_type value = SC<Slider_type>((lower_bound + upper_bound) / 2.0)) noexcept :
 		m_value	{ lyo::Clamp(value, lower_bound, upper_bound) },
 		m_min	{ lower_bound },
 		m_max	{ upper_bound }
@@ -78,6 +79,67 @@ public:
 	Slider& operator-=(Slider_type subtract) noexcept
 	{
 		m_value = lyo::Clamp(m_value - subtract, m_min, m_max);
+
+		return *this;
+	}
+};
+
+
+
+template <lyo::Arithmetic Slider_type, Slider_type Min, Slider_type Max>
+class StaticSlider
+{
+	Slider_type m_value; // sizeof(Slider_type)b
+
+public:
+
+	constexpr StaticSlider(Slider_type value = SC<Slider_type>((Min + Max) / 2.0)) noexcept :
+		m_value{ lyo::Clamp(value, Min, Max) }
+	{
+
+	}
+
+
+
+	constexpr operator Slider_type() SAFE
+	{
+		return m_value;
+	}
+
+	constexpr Slider_type min() SAFE
+	{
+		return Min;
+	}
+
+	constexpr Slider_type max() SAFE
+	{
+		return Max;
+	}
+
+	constexpr bool on_border() SAFE
+	{
+		return m_value == Min || m_value == Max;
+	}
+
+
+
+	constexpr StaticSlider& operator=(Slider_type value) noexcept
+	{
+		m_value = lyo::Clamp(value, Min, Max);
+
+		return *this;
+	}
+
+	constexpr StaticSlider& operator+=(Slider_type add) noexcept
+	{
+		m_value = lyo::Clamp(m_value + add, Min, Max);
+
+		return *this;
+	}
+
+	constexpr StaticSlider& operator-=(Slider_type subtract) noexcept
+	{
+		m_value = lyo::Clamp(m_value - subtract, Min, Max);
 
 		return *this;
 	}

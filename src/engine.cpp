@@ -2,18 +2,20 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+
 #include "engine.h"
 #include "globals.h"
+#include "settings.h"
 
 std::ofstream lyo::Engine::Log{ "lyoEngine output.txt" };
 
-void lyo::Engine::Crash(lyo::cstring title, lyo::cstring description) noexcept
+void lyo::Engine::Crash(lyo::c_string title, lyo::c_string description) noexcept
 {
 	/* We don't want to display an empty string as the description. */
-	lyo::cstring err{ std::strlen(description) ? description : "(none)" };
+	lyo::c_string err{ std::strlen(description) ? description : "(none)" };
 
-	Engine::Log	<< "[CRASH] lyoEngine crashed!\nReason: " << title
-					<< "\nError: " << err << "\nRuntime: " << g::runtime << '\n';
+	Engine::Log	<< "[CRASH HANDLER] lyoEngine crashed!\nReason: " << title
+					<< "\nError: " << err << "\nRuntime: " << g::runtime << std::endl;
 
 	const SDL_MessageBoxButtonData buttons[2]{ { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Exit" },
 											   { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Run anyway" } };
@@ -23,16 +25,18 @@ void lyo::Engine::Crash(lyo::cstring title, lyo::cstring description) noexcept
 	int response{ 0 };
 
 	if (::SDL_ShowMessageBox(&msgbox, &response) < 0)
-		Engine::Log << "[CRASH HANDLER] SDL_ShowMessageBox failed. The engine will preventively crash.\n";
+		Engine::Log << "[CRASH HANDLER] SDL_ShowMessageBox failed. The engine will preventively crash." << std::endl;
 
 	/* Assume the response hasn't changed if the message box failed to create. */
 	if (!response)
 		std::exit(EXIT_FAILURE);
+
+	Engine::Log << "[CRASH HANDLER] The user has decided that running the engine in spite of an error is a good idea. God help them." << std::endl;
 }
 
 
 
-lyo::Engine::Engine(unsigned init_flags) noexcept
+lyo::Engine::Engine(Uint32 init_flags) noexcept
 {
 	/* Initialize all SDL facilities. */
 	if (::SDL_Init(init_flags) < 0)
@@ -49,8 +53,10 @@ lyo::Engine::Engine(unsigned init_flags) noexcept
 
 	/* Enumerate all displays and their dimensions. */
 	const int displays{ ::SDL_GetNumVideoDisplays() };
-	if (displays < 0)
-		Engine::Crash("SDL_GetNumVideoDisplays failed!");
+
+	IF_DEBUG
+		if (displays < 0)
+			Engine::Crash("SDL_GetNumVideoDisplays failed!");
 
 	m_displays.resize(SC<lyo::size>(displays));
 
@@ -63,10 +69,10 @@ lyo::Engine::Engine(unsigned init_flags) noexcept
 
 		m_displays[i] =
 		{
-			SC<lyo::SizeType::Window>(d.x),
-			SC<lyo::SizeType::Window>(d.y),
-			SC<lyo::SizeType::Window>(d.w),
-			SC<lyo::SizeType::Window>(d.h)
+			SC<lyo::ST::Window>(d.x),
+			SC<lyo::ST::Window>(d.y),
+			SC<lyo::ST::Window>(d.w),
+			SC<lyo::ST::Window>(d.h)
 		};
 	}
 		
