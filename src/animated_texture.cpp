@@ -21,10 +21,10 @@ lyo::AnimatedTexture::AnimatedTexture(const lyo::Window& window, lyo::c_string f
 		frames.clear();
 		frames.resize(pair.second);
 
-		/* Iterate through the texture frames for every animation. Each */
+		/* Iterate through the texture frames for every animation. */
 		for (lyo::ST::Animation frame{ 0 }; frame < pair.second && y < size.y; ++frame, x += frame_size.x)
 		{
-			/* Wrap-around for the width. */
+			/* Wrap-around if we reach the horizontal end. */
 			if (x >= size.x)
 			{
 				x = 0;
