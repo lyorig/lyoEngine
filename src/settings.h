@@ -7,7 +7,7 @@
    General good practice: only use #define when each branch requires
    different libraries (those can't be conditionally included with constexpr). */
 
-#define LYOENGINE_VERSION "v0.2"
+#define LYOENGINE_VERSION "v0.3"
 
 BEGIN_LYO_NAMESPACE
 namespace Settings
@@ -16,6 +16,8 @@ namespace Settings
 	SETTING bool	Float_Draw		{ true };	// Draw using SDL's RenderCopyExF instead of RenderCopyEx.
 	SETTING double	Default_Scale	{ 2.0 };	// The scale multiplier for every lyo::Texture-based entity.
 	SETTING double	Animation_TTU	{ 0.1 };	// The default animation update time of lyo::AnimatedTexture.
+
+	SETTING lyo::Size::Window BWS{ 1920, 1080 }; // The Base Window Size for texture scaling on different resolutions.
 }
 END_LYO_NAMESPACE
 

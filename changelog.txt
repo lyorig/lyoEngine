@@ -1,0 +1,6 @@
+lyoEngine v0.3 changelog:
+
+Todo:
+- Sprite scaling for different monitor sizes
+- Slider hooking for functions
+- Derive Text from both Font and Texture

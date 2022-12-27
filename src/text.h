@@ -22,12 +22,12 @@ class Text final : public Texture
 
 public:
 
-	Text(lyo::Window& window, const Font& font, lyo::c_string text, lyo::u32 color = 0xFFFFFF, double scale = 1.0) noexcept;
+	Text(const lyo::Window& window, const Font& font, lyo::c_string text, lyo::u32 color = 0xFFFFFF, double scale = 1.0) noexcept;
 
 	void set_font	(lyo::c_string font_path)	noexcept;
 	void set_color	(lyo::u32 color)			noexcept;
 
-	lyo::c_string content() SAFE;
+	const lyo::String& content() SAFE;
 
 	void operator=(lyo::c_string text) noexcept;
 };

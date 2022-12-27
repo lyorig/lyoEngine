@@ -26,12 +26,13 @@ int main(int argc, char* argv[])
 
 	const lyo::Engine engine{ SDL_INIT_VIDEO | SDL_INIT_AUDIO };
 
-	lyo::Mixer	mixer;
-	lyo::Input	input;
+	lyo::Mixer mixer;
+	lyo::Input input;
 	
 	lyo::Window window{ "lyoEngine " LYOENGINE_VERSION, mixer, input };
 
-	lyo::Font font{ FONT("montserrat.ttf"), 48 };
+	const lyo::Font engine_font	{ FONT("montserrat.ttf"), 48 };
+	const lyo::Font game_font	{ FONT("m5x7.ttf"), 72 };
 
 	{
 		lyo::Texture logo { window, "assets/sprites/haloda.png", 3.0 };
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
 		logo.opacity = 1.0;
 
 		lyo::Font m5x7{ FONT("m5x7.ttf"), 72 };
-		lyo::Text load{ window, m5x7, "A game by IdleFour" };
+		lyo::Text load{ window, game_font, "A game by IdleFour" };
 		load.opacity = 1.0;
 
 		lyo::Coordinate logo_cnt{ logo.center() }, load_cnt{ load.center() };
@@ -97,11 +98,11 @@ int main(int argc, char* argv[])
 		window.draw();
 	}
 
-	lyo::Text	text{ window, font, argc > 1 ? argv[1] : "lyoEngine " LYOENGINE_VERSION " developement build", 0x19F4FF },
-				time{ window, font, "Frametime" },
-				scl	{ window, font, "Scale" },
-				rot	{ window, font, "Angle" },
-				cnt	{ window, font, "Controls:", 0xFFFF00 };
+	lyo::Text	text{ window, engine_font, argc > 1 ? argv[1] : "lyoEngine " LYOENGINE_VERSION " developement build", 0x19F4FF },
+				time{ window, engine_font, "Frametime" },
+				scl	{ window, engine_font, "Scale" },
+				rot	{ window, engine_font, "Angle" },
+				cnt	{ window, engine_font, "Controls:", 0xFFFF00 };
 
 	lyo::Entity ent{ window, "assets/sprites/haloda.png", { { Animation::Idle, SC<lyo::u8>(8) } }, { 64, 64 }, { 0, 0 } };
 

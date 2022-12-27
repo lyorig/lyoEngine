@@ -65,6 +65,9 @@
     <ClCompile Include="src\music.cpp">
       <Filter>2: Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\spritesheet.cpp">
+      <Filter>2: Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine.h">
@@ -134,6 +137,9 @@
       <Filter>4: Utility Files\1: Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\music.h">
+      <Filter>1: Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\spritesheet.h">
       <Filter>1: Header Files</Filter>
     </ClInclude>
   </ItemGroup>

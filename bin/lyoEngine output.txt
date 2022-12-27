@@ -1,5 +1,5 @@
 Command-line arguments:
-1. C:\Users\petri\Desktop\Projects (C++)\lyoEngine\bin\lyoEngine.exe
+1. C:\Users\petri\Documents\GitHub\lyoEngine\bin\lyoEngine.exe
 
 Monitor table
 #	X	Y	Width	Height

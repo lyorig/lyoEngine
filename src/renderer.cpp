@@ -5,7 +5,7 @@
 #include "renderer.h"
 #include "settings.h"
 
-SDL_Renderer* lyo::Renderer::Create(lyo::Window& window, unsigned flags = SDL_RENDERER_ACCELERATED) noexcept
+SDL_Renderer* lyo::Renderer::Create(lyo::Window& window, unsigned flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) noexcept
 {
 	SDL_Renderer* temp_renderer{ ::SDL_CreateRenderer(window, -1, flags) };
 

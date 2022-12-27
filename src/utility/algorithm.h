@@ -53,7 +53,7 @@ constexpr Number Clamp(Number x, Number lower, Number upper) noexcept
 
 
 
-/* Convert a 32-bit RGBA hex value to an SDL_Color struct. */
+/* Convert a 32-bit RGB hex value into an SDL_Color struct. */
 constexpr SDL_Color HexToColor(lyo::u32 value) noexcept
 {
 	using Color = decltype(SDL_Color::r);

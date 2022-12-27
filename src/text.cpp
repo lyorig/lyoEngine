@@ -13,7 +13,7 @@ lyo::Surface lyo::Text::Create(lyo::c_string text, const Font& font, lyo::u32 co
 
 
 
-lyo::Text::Text(lyo::Window& window, const Font& font, lyo::c_string text, lyo::u32 color, double scale) noexcept :
+lyo::Text::Text(const lyo::Window& window, const Font& font, lyo::c_string text, lyo::u32 color, double scale) noexcept :
 	Texture	{ window, Text::Create(text, font, color), scale },
 	m_font	{ font },
 	m_text	{ text },
@@ -44,7 +44,7 @@ void lyo::Text::set_color(lyo::u32 color) noexcept
 
 
 
-lyo::c_string lyo::Text::content() SAFE
+const lyo::String& lyo::Text::content() SAFE
 {
 	return m_text;
 }

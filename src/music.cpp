@@ -59,8 +59,10 @@ lyo::Music::operator Mix_Music* () SAFE
 Mix_Chunk* lyo::Chunk::Create(lyo::c_string path) noexcept
 {
 	Mix_Chunk* temp_chunk{ ::Mix_LoadWAV(path) };
-	if (!temp_chunk)
-		Engine::Crash("Mix_LoadWAV failed!");
+
+	IF_DEBUG
+		if (!temp_chunk)
+			Engine::Crash("Mix_LoadWAV failed!");
 
 	return temp_chunk;
 }

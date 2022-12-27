@@ -25,7 +25,7 @@ public:
 
 	void set_size(lyo::ST::Font size) noexcept;
 
-	lyo::ST::Font size() SAFE;
+	lyo::ST::Font		size() SAFE;
 	const lyo::String&	path() SAFE;
 
 	operator TTF_Font* () SAFE;

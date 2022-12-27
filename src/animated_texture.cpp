@@ -21,10 +21,10 @@ lyo::AnimatedTexture::AnimatedTexture(const lyo::Window& window, lyo::c_string f
 		frames.clear();
 		frames.resize(pair.second);
 
-		/* Iterate through the texture frames for every animation. Each */
+		/* Iterate through the texture frames for every animation. */
 		for (lyo::ST::Animation frame{ 0 }; frame < pair.second && y < size.y; ++frame, x += frame_size.x)
 		{
-			/* Wrap-around for the width. */
+			/* Wrap-around if the horizontal end of the texture is reached. */
 			if (x >= size.x)
 			{
 				x = 0;
@@ -44,8 +44,11 @@ void lyo::AnimatedTexture::update() noexcept
 {
 	if (m_animationTimer >= m_timeToUpdate)
 	{
-		m_animationTimer.reset();
-
+		{
+			double rem{ m_animationTimer - m_timeToUpdate };
+			m_animationTimer.reset() += rem;
+		}
+	
 		const FrameVector& frame_vec{ m_spritesheet[m_animation] };
 
 		if (++m_frame >= frame_vec.size())

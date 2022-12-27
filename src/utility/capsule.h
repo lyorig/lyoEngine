@@ -4,8 +4,8 @@
 
 /* capsule.h:
    A custom implementation of std::shared_ptr.
-   P.S.: Do not even attempt to edit this. Template metaprogramming
-   was invented by Hitler himself, and if you asked me why it works, I seriously couldn't tell you. */
+   P.S.: Do not even attempt to edit this. Template metaprogramming was invented
+   by Hitler himself, and if you were to ask me why it works, I seriously couldn't tell you. */
 
 BEGIN_LYO_NAMESPACE
 template <typename Type, lyo::Function<void, typename std::conditional<std::is_array_v<Type>, Type, Type*>::type> Deleter = nullptr>
