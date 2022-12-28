@@ -7,7 +7,7 @@
    General good practice: only use #define when each branch requires
    different libraries (those can't be conditionally included with constexpr). */
 
-#define LYOENGINE_VERSION "v0.3"
+#define LYOENGINE_VERSION "v0.2"
 
 BEGIN_LYO_NAMESPACE
 namespace Settings

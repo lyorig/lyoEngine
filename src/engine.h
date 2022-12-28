@@ -11,7 +11,6 @@
    The "engine" itself, which is responsible for initializing
    (and deinitializing) all SDL facilities, on which it is built upon. Also
    includes various system info, such as displays etc.
-   
    It consists of 2 parts: a constructor and destructor, responsible for 
    (de)initializing SDL, and static logging/crash functions. */
 

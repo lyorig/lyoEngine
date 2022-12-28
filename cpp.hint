@@ -11,3 +11,4 @@
 #define BEGIN_LYO_NAMESPACE namespace lyo {
 #define END_LYO_NAMESPACE }
 #define DELETE_COPY_CTORS(class_name) class_name(const class_name&) = delete; class_name& operator=(const class_name&) = delete;
+#define NAMESPACE_DECL(namespace_name, object) namespace namespace_name { object; }

@@ -1,9 +1,10 @@
 #pragma once
 
 #include <concepts>
+
 #include "../types.h"
 
-/* BITSET.H: 
+/* bitset.h:
    A custom implementation of std::bitset. */
 
 BEGIN_LYO_NAMESPACE

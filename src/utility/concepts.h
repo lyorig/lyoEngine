@@ -19,11 +19,4 @@ std::is_same_v<Char, wchar_t> ||
 std::is_same_v<Char, char8_t> ||
 std::is_same_v<Char, char16_t> ||
 std::is_same_v<Char, char32_t>;
-
-template <typename Arr>
-concept Array = std::is_array_v<Arr>;
-
-template <typename Ptr>
-concept Pointer = std::is_pointer_v<Ptr>;
-
 END_LYO_NAMESPACE

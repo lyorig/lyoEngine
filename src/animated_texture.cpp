@@ -1,5 +1,5 @@
 #include "engine.h"
-#include "surface.h"
+#include "spritesheet.h"
 #include "animated_texture.h"
 
 lyo::AnimatedTexture::AnimatedTexture(const lyo::Window& window, lyo::c_string file_name, const InitList& animations, const lyo::Size::Texture& frame_size, double scale, double time_to_update) noexcept :
@@ -8,13 +8,13 @@ lyo::AnimatedTexture::AnimatedTexture(const lyo::Window& window, lyo::c_string f
 	m_animation		{ animations.begin()->first },
 	m_frame			{ 0 }
 {
-	const lyo::Size::Texture& size{ this->size() };
-
-	this->set_area({ 0, 0, frame_size.x, frame_size.y });
-
-	lyo::ST::Texture x{ 0 }, y{ 0 };
+	/* Split the texture into frames right off the bat. */
+	lyo::Spritesheet		sheet	{ file_name, frame_size };
+	lyo::Size::Animation	size	{ sheet.size() };
 
 	FrameVector	frames;
+
+	lyo::Size::Animation pos{ 0, 0 };
 
 	for (auto& pair : animations)
 	{
@@ -22,20 +22,22 @@ lyo::AnimatedTexture::AnimatedTexture(const lyo::Window& window, lyo::c_string f
 		frames.resize(pair.second);
 
 		/* Iterate through the texture frames for every animation. */
-		for (lyo::ST::Animation frame{ 0 }; frame < pair.second && y < size.y; ++frame, x += frame_size.x)
+		for (lyo::ST::Animation frame{ 0 }; frame < pair.second && pos.y < size.y; ++frame, ++pos.x)
 		{
 			/* Wrap-around if the horizontal end of the texture is reached. */
-			if (x >= size.x)
+			if (pos.x >= size.x)
 			{
-				x = 0;
-				y += frame_size.y;
+				pos.x = 0;	// Move back to the left of the texture.
+				pos.y += 1;	// Move down one row.
 			}
 
-			frames[frame] = { x, y };
+			frames[frame] = sheet[pos.y][pos.x];
 		}
 
-		m_spritesheet.insert({ pair.first, frames });
+		m_spritesheet.insert(std::make_pair(pair.first, frames));
 	}
+
+	this->set_area({ 0, 0, frame_size.x, frame_size.y });
 }
 
 

@@ -8,7 +8,8 @@
 #include "utility/concepts.h"
 
 /* types.h:
-   Convenience typedefs for less verbose code. */
+   Convenience typedefs for less verbose code, as well as
+   globally used types for unified code. */
 
 BEGIN_LYO_NAMESPACE
 #ifdef USE_FAST_INTEGER_TYPES
@@ -35,8 +36,8 @@ using u64 = std::uint64_t;	// 0 to 18,446,744,073,709,551,615
 
 using size = std::size_t;
 
-using c_string			= const char*;
-using const_c_string	= const char* const;
+using c_string = const char*;
+using w_string = const wchar_t*;
 
 
 
@@ -150,9 +151,10 @@ namespace ST
 /* Dimensions of various objects, implemented with lyo::Point. */
 namespace Size
 {
-	using Texture	= lyo::Point<lyo::ST::Texture>;	// The dimensions of a texture.
-	using Window	= lyo::Point<lyo::ST::Window>;	// The dimensions of a window.
-	using Level		= lyo::Point<lyo::ST::Level>;	// The dimensions of a level.
+	using Animation = lyo::Point<lyo::ST::Animation>;	// The size of an animation, in frames.
+	using Texture	= lyo::Point<lyo::ST::Texture>;		// The dimensions of a texture.
+	using Window	= lyo::Point<lyo::ST::Window>;		// The dimensions of a window.
+	using Level		= lyo::Point<lyo::ST::Level>;		// The dimensions of a level.
 }
 
 /* Areas of various objects, implemented with lyo::Rectangle. */

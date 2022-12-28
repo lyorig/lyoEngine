@@ -1,10 +1,12 @@
 #pragma once
 
-
 #include "concepts.h"
 #include "algorithm.h"
 #include "../types.h"
 #include "../settings.h"
+
+/* slider.h:
+   A variable with a minimum and maximum value. */
 
 BEGIN_LYO_NAMESPACE
 template <lyo::Arithmetic Slider_type>
@@ -144,4 +146,9 @@ public:
 		return *this;
 	}
 };
+
+
+
+using OpacitySlider = StaticSlider<double, 0.0, 255.0>;
+using VolumeSlider	= StaticSlider<lyo::ST::Music, 0, 128>;
 END_LYO_NAMESPACE

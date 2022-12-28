@@ -3,7 +3,7 @@
 #include "utility/bitset.h"
 
 /* input.h:
-   A class which handles input. Now capable of handling
+   A class which handles input, capable of handling
    multiple keypresses in a single update() call. */
 
 BEGIN_LYO_NAMESPACE

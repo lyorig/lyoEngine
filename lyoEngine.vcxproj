@@ -75,12 +75,14 @@
     <IntDir>$(SolutionDir)obj\</IntDir>
     <IncludePath>$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_ttf\include;$(SolutionDir)SDL\SDL2_mixer\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL\SDL2\lib\x64;$(SolutionDir)SDL\SDL2_image\lib\x64;$(SolutionDir)SDL\SDL2_ttf\lib\x64;$(SolutionDir)SDL\SDL2_mixer\lib\x64;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName) ($(Configuration))</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <IncludePath>$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_ttf\include;$(SolutionDir)SDL\SDL2_mixer\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL\SDL2\lib\x64;$(SolutionDir)SDL\SDL2_image\lib\x64;$(SolutionDir)SDL\SDL2_ttf\lib\x64;$(SolutionDir)SDL\SDL2_mixer\lib\x64;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName) ($(Configuration))</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,7 +116,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -132,16 +134,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;RELEASE;USE_FAST_INTEGER_TYPES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;USE_FAST_INTEGER_TYPES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

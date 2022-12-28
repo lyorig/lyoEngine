@@ -3,8 +3,8 @@
 #include <SDL_mixer.h>
 
 #include "types.h"
-#include "utility/capsule.h"
 #include "utility/slider.h"
+#include "utility/capsule.h"
 
 /* music.h:
    Wrapper classes for Mix_Music and Mix_Chunk. */
@@ -15,7 +15,8 @@ class Music
 	static Mix_Music* Create(lyo::c_string path) noexcept;
 
 	lyo::Capsule<Mix_Music, ::Mix_FreeMusic> m_music; // 16b
-	lyo::StaticSlider<lyo::ST::Music, 0, MIX_MAX_VOLUME> m_volume;
+
+	lyo::VolumeSlider m_volume; // 1b
 
 public:
 
@@ -35,7 +36,9 @@ class Chunk
 {
 	static Mix_Chunk* Create(lyo::c_string path) noexcept;
 
-	lyo::Capsule<Mix_Chunk, ::Mix_FreeChunk> m_chunk;
+	lyo::Capsule<Mix_Chunk, ::Mix_FreeChunk> m_chunk; // 16b
+
+	lyo::VolumeSlider m_volume;
 
 public:
 

@@ -19,7 +19,7 @@ SDL_Renderer* lyo::Renderer::Create(lyo::Window& window, unsigned flags = SDL_RE
 
 
 lyo::Renderer::Renderer(lyo::Window& window, unsigned flags) noexcept :
-	p_renderer{ Renderer::Create(window, flags) }
+	m_renderer{ Renderer::Create(window, flags) }
 {
 
 }
@@ -28,18 +28,21 @@ lyo::Renderer::Renderer(lyo::Window& window, unsigned flags) noexcept :
 
 void lyo::Renderer::present() SAFE
 {
-	::SDL_RenderPresent(p_renderer);
+	::SDL_RenderPresent(m_renderer);
 }
 
 void lyo::Renderer::clear() SAFE
 {
-	if (::SDL_RenderClear(p_renderer) < 0)
-		Engine::Crash("SDL_RenderClear failed!");
+	const int result{ ::SDL_RenderClear(m_renderer) };
+
+	IF_DEBUG
+		if (result < 0)
+			Engine::Crash("SDL_RenderClear failed!");
 }
 
 
 
 lyo::Renderer::operator SDL_Renderer* () SAFE
 {
-	return p_renderer;
+	return m_renderer;
 }

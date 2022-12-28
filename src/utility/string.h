@@ -4,7 +4,7 @@
 #include "concepts.h"
 #include "../types.h"
 
-/* string.h: 
+/* string.h:
    Custom implementation of std::string, implemented with
    a smart pointer (lyo::Capsule), which should make copying more efficient. */
 
@@ -114,5 +114,6 @@ public:
 	}
 };
 
-using String = BasicString<char>;
+using String		= BasicString<char>;
+using WideString	= BasicString<wchar_t>;
 END_LYO_NAMESPACE

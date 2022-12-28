@@ -10,7 +10,7 @@
 #include "utility/string.h"
 
 /* animated_texture.h:
-   A texture with a spritesheet and user-defined frames. */
+   A texture with user-defined animations. */
 
 enum class Animation : lyo::u8
 {

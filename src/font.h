@@ -7,6 +7,9 @@
 
 #define FONT(file) "assets/fonts/" ## file
 
+/* font.h:
+   Wrapper class for TTF_Font. */
+
 BEGIN_LYO_NAMESPACE
 class Font
 {

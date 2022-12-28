@@ -6,6 +6,9 @@
 #include "utility/string.h"
 #include "utility/capsule.h"
 
+/* surface.h:
+   A wrapper class for SDL_Surface. */
+
 BEGIN_LYO_NAMESPACE
 class Surface
 {

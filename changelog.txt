@@ -1,6 +1,6 @@
 lyoEngine v0.3 changelog:
+- Spritesheet class for tilemaps, animations etc.
 
 Todo:
 - Sprite scaling for different monitor sizes
 - Slider hooking for functions
-- Derive Text from both Font and Texture

@@ -1,9 +1,54 @@
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <Windows.h>
+
 #include "text.h"
 #include "engine.h"
 
 lyo::Surface lyo::Text::Create(lyo::c_string text, const Font& font, lyo::u32 color) noexcept
 {
-	SDL_Surface* temp_surface{ ::TTF_RenderUTF8_LCD_Wrapped(font, text, lyo::HexToColor(color), {0, 0, 0, 0}, NULL) };
+	/* We're essentially counting on the user inputting a string that is < 256 chars. Whoops. */
+	constexpr int BUFFER_SIZE{ 256 };
+
+	wchar_t convert[BUFFER_SIZE];
+
+	const int result{ ::MultiByteToWideChar(CP_ACP, NULL, text, -1, convert, BUFFER_SIZE) };
+
+	IF_DEBUG
+	{
+		if (!result)
+		{
+			lyo::String error;
+
+			switch (::GetLastError())
+			{
+			case ERROR_INSUFFICIENT_BUFFER:
+				error = "Insufficient (or NULL) buffer size.";
+				break;
+
+			case ERROR_INVALID_FLAGS:
+				error = "Invalid flags.";
+				break;
+
+			case ERROR_INVALID_PARAMETER:
+				error = "Invalid parameters.";
+				break;
+
+			case ERROR_NO_UNICODE_TRANSLATION:
+				error = "The string contains invalid Unicode.";
+				break;
+
+			default:
+				error = "Unknown error. This shouldn't happen!";
+				break;
+			}
+
+			Engine::Crash("MultiByteToWideChar failed!", error);
+		}
+	}
+		
+	SDL_Surface* temp_surface{ ::TTF_RenderUNICODE_LCD_Wrapped(font, RC<const Uint16*>(convert), lyo::HexToColor(color), {0, 0, 0, 0}, NULL)};
+
 	IF_DEBUG
 		if (!temp_surface)
 			Engine::Crash("TTF_RenderUTF8_LCD_Wrapped failed!");

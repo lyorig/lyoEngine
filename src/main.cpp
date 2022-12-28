@@ -1,4 +1,5 @@
 #include <SDL.h>
+
 #include "font.h"
 #include "text.h"
 #include "mixer.h"
@@ -8,6 +9,7 @@
 #include "window.h"
 #include "globals.h"
 #include "renderer.h"
+#include "spritesheet.h"
 
 /* main.cpp:
    The entry point of the program. */
@@ -32,7 +34,6 @@ int main(int argc, char* argv[])
 	lyo::Window window{ "lyoEngine " LYOENGINE_VERSION, mixer, input };
 
 	const lyo::Font engine_font	{ FONT("montserrat.ttf"), 48 };
-	const lyo::Font game_font	{ FONT("m5x7.ttf"), 72 };
 
 	{
 		lyo::Texture logo { window, "assets/sprites/haloda.png", 3.0 };
@@ -40,7 +41,8 @@ int main(int argc, char* argv[])
 		logo.opacity = 1.0;
 
 		lyo::Font m5x7{ FONT("m5x7.ttf"), 72 };
-		lyo::Text load{ window, game_font, "A game by IdleFour" };
+
+		lyo::Text load{ window, m5x7, "A game by IdleFour" };
 		load.opacity = 1.0;
 
 		lyo::Coordinate logo_cnt{ logo.center() }, load_cnt{ load.center() };
@@ -101,8 +103,7 @@ int main(int argc, char* argv[])
 	lyo::Text	text{ window, engine_font, argc > 1 ? argv[1] : "lyoEngine " LYOENGINE_VERSION " developement build", 0x19F4FF },
 				time{ window, engine_font, "Frametime" },
 				scl	{ window, engine_font, "Scale" },
-				rot	{ window, engine_font, "Angle" },
-				cnt	{ window, engine_font, "Controls:", 0xFFFF00 };
+				rot	{ window, engine_font, "Angle" };
 
 	lyo::Entity ent{ window, "assets/sprites/haloda.png", { { Animation::Idle, SC<lyo::u8>(8) } }, { 64, 64 }, { 0, 0 } };
 
@@ -140,7 +141,7 @@ int main(int argc, char* argv[])
 			angle += ANGLE_PER_SEC * timer;
 
 		if (input.pressed(SDL_SCANCODE_LMB))
-			scale = 2.0;
+			scale = lyo::Settings::Default_Scale;
 
 		if (input.pressed(SDL_SCANCODE_RMB))
 			angle = 0.0;

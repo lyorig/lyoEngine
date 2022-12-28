@@ -98,7 +98,7 @@ void lyo::Texture::draw(const lyo::Coordinate& destination) SAFE
 			SC<FRect>(m_area.height * m_scale)
 		};
 
-		int result{ ::SDL_RenderCopyExF(m_window.renderer(), m_texture, &src, &dst, m_angle, NULL, m_flip) };
+		const int result{ ::SDL_RenderCopyExF(m_window.renderer(), m_texture, &src, &dst, m_angle, NULL, m_flip) };
 
 		IF_DEBUG
 			if (result == -1)
@@ -114,7 +114,7 @@ void lyo::Texture::draw(const lyo::Coordinate& destination) SAFE
 			lyo::Cast::Unsigned<Rect>(m_area.height * m_scale)
 		};
 
-		int result{ ::SDL_RenderCopyEx(m_window.renderer(), m_texture, &src, &dst, m_angle, NULL, m_flip) };
+		const int result{ ::SDL_RenderCopyEx(m_window.renderer(), m_texture, &src, &dst, m_angle, NULL, m_flip) };
 
 		IF_DEBUG
 			if (result == -1)

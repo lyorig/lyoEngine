@@ -46,7 +46,7 @@ public: // For debug purposes - make this protected later!
 
 public:
 
-	lyo::StaticSlider<double, 0.0, 255.0> opacity;
+	lyo::OpacitySlider opacity;
 
 	Texture(const lyo::Window& window, const lyo::Surface& surface, double scale = 1.0, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE) noexcept;
 

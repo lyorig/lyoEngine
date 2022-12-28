@@ -1,4 +1,3 @@
-
 #include <SDL_image.h>
 
 #include "surface.h"

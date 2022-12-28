@@ -14,7 +14,7 @@ class Renderer
 {
 	static SDL_Renderer* Create(lyo::Window& window, unsigned flags) noexcept;
 
-	lyo::Capsule<SDL_Renderer, ::SDL_DestroyRenderer> p_renderer; // 16b
+	lyo::Capsule<SDL_Renderer, ::SDL_DestroyRenderer> m_renderer; // 16b
 
 public:
 
