@@ -67,7 +67,13 @@ void lyo::AnimatedTexture::update() noexcept
 
 
 
-void lyo::AnimatedTexture::set_animation(Animation animation) noexcept
+void lyo::AnimatedTexture::set_animation(Animation animation, lyo::ST::Animation frame) noexcept
 {
-	m_animation = animation;
+	if (m_animation != animation)
+	{
+		m_animation = animation;
+
+		/* Maybe modulo this by the amount of frames in this animation? */
+		m_frame = frame - 1; // Needed, as the texture instantly updates.
+	}
 }

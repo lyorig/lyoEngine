@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL_render.h>
 #include "macros.h"
 
 /* settings.h:
@@ -16,6 +17,9 @@ namespace Settings
 	SETTING bool	Float_Draw		{ true };	// Draw using SDL's RenderCopyExF instead of RenderCopyEx.
 	SETTING double	Default_Scale	{ 2.0 };	// The scale multiplier for every lyo::Texture-based entity.
 	SETTING double	Animation_TTU	{ 0.1 };	// The default animation update time of lyo::AnimatedTexture.
+
+	SETTING lyo::u32 Default_Window_Flags	{ SDL_WINDOW_FULLSCREEN_DESKTOP };							// Default window flags.
+	SETTING lyo::u32 Default_Renderer_Flags	{ SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC };	// Default renderer flags for a window.
 
 	SETTING lyo::Size::Window BWS{ 1920, 1080 }; // The Base Window Size for texture scaling on different resolutions.
 }

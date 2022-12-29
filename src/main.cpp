@@ -1,6 +1,5 @@
 #include <SDL.h>
 
-#include "font.h"
 #include "text.h"
 #include "mixer.h"
 #include "input.h"
@@ -9,7 +8,6 @@
 #include "window.h"
 #include "globals.h"
 #include "renderer.h"
-#include "spritesheet.h"
 
 /* main.cpp:
    The entry point of the program. */
@@ -102,10 +100,11 @@ int main(int argc, char* argv[])
 
 	lyo::Text	text{ window, engine_font, argc > 1 ? argv[1] : "lyoEngine " LYOENGINE_VERSION " developement build", 0x19F4FF },
 				time{ window, engine_font, "Frametime" },
-				scl	{ window, engine_font, "Scale" },
-				rot	{ window, engine_font, "Angle" };
+				scl{ window, engine_font, "Scale" },
+				rot{ window, engine_font, "Angle" },
+				dt{ window, engine_font, "Delta time" };
 
-	lyo::Entity ent{ window, "assets/sprites/haloda.png", { { Animation::Idle, SC<lyo::u8>(8) } }, { 64, 64 }, { 0, 0 } };
+	lyo::Entity ent{ window, "assets/sprites/haloda.png", { { Animation::Idle, SC<lyo::u8>(8) }, {Animation::Attack, SC<lyo::u8>(8) } }, {64, 64}, {0, 0}};
 
 	ent.opacity = 0.0;
 	ent.update();
@@ -118,7 +117,7 @@ int main(int argc, char* argv[])
 
 	lyo::Timer timer;
 
-	lyo::String rt{ "Runtime: " }, sc{ "Scale: " }, ag{ "Angle: " };
+	lyo::String rt{ "Runtime: " }, sc{ "Scale: " }, ag{ "Angle: " }, dl{ "Delta time: " };
 	
 	if (!input.pressed(SDL_SCANCODE_ESCAPE))
 	{
@@ -146,16 +145,24 @@ int main(int argc, char* argv[])
 		if (input.pressed(SDL_SCANCODE_RMB))
 			angle = 0.0;
 
-		time = rt + std::to_string(g::runtime).c_str();
-		scl	 = sc + std::to_string(scale).c_str();
-		rot	 = ag + std::to_string(angle).c_str();
+		if (input.pressed(SDL_SCANCODE_BACKSPACE))
+			ent.set_animation(Animation::Attack);
+
+		if (input.pressed(SDL_SCANCODE_RETURN))
+			ent.set_animation(Animation::Idle);
+
+		time	= rt + std::to_string(g::runtime).c_str();
+		scl		= sc + std::to_string(scale).c_str();
+		rot		= ag + std::to_string(angle).c_str();
+		dt		= dl + std::to_string(timer).c_str();
 
 		timer.reset();
 
-		text.draw({ 20, 10 });
-		time.draw({ 20, SC<double>(10 + text.height()) });
-		scl.draw({ 20, SC<double>(10 + text.height() + time.height()) });
-		rot.draw({ 20, SC<double>(10 + text.height() + time.height() + scl.height()) });
+		text.draw	({ 20, 10 });
+		time.draw	({ 20, SC<double>(10 + text.height()) });
+		scl.draw	({ 20, SC<double>(10 + text.height() + time.height()) });
+		rot.draw	({ 20, SC<double>(10 + text.height() + time.height() + scl.height()) });
+		dt.draw		({ 20, SC<double>(10 + text.height() + time.height() + scl.height() + rot.height()) });
 
 		ent.set_scale(scale);
 		ent.set_angle(angle);

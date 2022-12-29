@@ -26,7 +26,7 @@ void lyo::Music::play() SAFE
 {
 	IF_DEBUG
 		if (!m_music)
-			Engine::Crash("DEBUG: Tried to play nullptr music!", "in Music::play()");
+			Engine::Warn("Tried to play nullptr music.");
 
 	if (m_music) ::Mix_PauseMusic();
 }
@@ -35,7 +35,7 @@ void lyo::Music::pause() SAFE
 {
 	IF_DEBUG
 		if (!m_music)
-			Engine::Crash("DEBUG: Tried to pause nullptr music!", "in Music::pause()");
+			Engine::Warn("Tried to pause nullptr music.");
 
 	if (m_music) ::Mix_ResumeMusic();
 }

@@ -12,12 +12,6 @@
 BEGIN_LYO_NAMESPACE
 class Music
 {
-	static Mix_Music* Create(lyo::c_string path) noexcept;
-
-	lyo::Capsule<Mix_Music, ::Mix_FreeMusic> m_music; // 16b
-
-	lyo::VolumeSlider m_volume; // 1b
-
 public:
 
 	Music(lyo::c_string path = nullptr) noexcept;
@@ -28,6 +22,14 @@ public:
 	void pause()	SAFE;
 
 	operator Mix_Music* () SAFE;
+
+private:
+
+	static Mix_Music* Create(lyo::c_string path) noexcept;
+
+	lyo::Capsule<Mix_Music, ::Mix_FreeMusic> m_music; // 16b
+
+	lyo::VolumeSlider m_volume; // 1b
 };
 
 

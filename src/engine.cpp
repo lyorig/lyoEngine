@@ -9,6 +9,13 @@
 
 std::ofstream lyo::Engine::Log{ "lyoEngine output.txt" };
 
+void lyo::Engine::Warn(lyo::c_string reason) noexcept
+{
+	static lyo::u32 count{ 0 };
+
+	Engine::Log << "[WARNING] #" << ++count << ": " << reason << " (at " << g::runtime << "s)" << std::endl;
+}
+
 void lyo::Engine::Crash(lyo::c_string title, lyo::c_string description) noexcept
 {
 	/* We don't want to display an empty string as the description. */
@@ -62,6 +69,8 @@ lyo::Engine::Engine(Uint32 init_flags) noexcept
 
 	for (int i{ 0 }; i < displays; ++i)
 	{
+		using Type = lyo::ST::Window;
+
 		SDL_Rect d;
 
 		if (::SDL_GetDisplayBounds(i, &d) < 0)
@@ -69,10 +78,10 @@ lyo::Engine::Engine(Uint32 init_flags) noexcept
 
 		m_displays[i] =
 		{
-			SC<lyo::ST::Window>(d.x),
-			SC<lyo::ST::Window>(d.y),
-			SC<lyo::ST::Window>(d.w),
-			SC<lyo::ST::Window>(d.h)
+			SC<Type>(d.x),
+			SC<Type>(d.y),
+			SC<Type>(d.w),
+			SC<Type>(d.h)
 		};
 	}
 		
@@ -106,7 +115,7 @@ lyo::Engine::~Engine()
 
 
 
-const std::vector<lyo::Area::Window>& lyo::Engine::displays() SAFE
+const lyo::Engine::DisplayVector& lyo::Engine::displays() SAFE
 {
 	return m_displays;
 }

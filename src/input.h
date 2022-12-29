@@ -9,8 +9,6 @@
 BEGIN_LYO_NAMESPACE
 class Input
 {
-	lyo::Bitset<SDL_NUM_SCANCODES, lyo::u64> m_pressed, m_held, m_released;
-
 public:
 
 	Input() noexcept;
@@ -20,5 +18,9 @@ public:
 	bool pressed(SDL_Scancode key) SAFE;
 	bool held(SDL_Scancode key) SAFE;
 	bool released(SDL_Scancode key) SAFE;
+
+private:
+
+	lyo::Bitset<SDL_NUM_SCANCODES, lyo::u64> m_pressed, m_held, m_released;
 };
 END_LYO_NAMESPACE

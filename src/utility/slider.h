@@ -12,8 +12,6 @@ BEGIN_LYO_NAMESPACE
 template <lyo::Arithmetic Slider_type>
 class Slider
 {
-	Slider_type m_value, m_min, m_max; // sizeof(Slider_type) * 3b
-
 public:
 
 	constexpr Slider(Slider_type lower_bound, Slider_type upper_bound, Slider_type value = SC<Slider_type>((lower_bound + upper_bound) / 2.0)) noexcept :
@@ -84,6 +82,10 @@ public:
 
 		return *this;
 	}
+
+private:
+
+	Slider_type m_value, m_min, m_max; // sizeof(Slider_type) * 3b
 };
 
 
@@ -91,8 +93,6 @@ public:
 template <lyo::Arithmetic Slider_type, Slider_type Min, Slider_type Max>
 class StaticSlider
 {
-	Slider_type m_value; // sizeof(Slider_type)b
-
 public:
 
 	constexpr StaticSlider(Slider_type value = SC<Slider_type>((Min + Max) / 2.0)) noexcept :
@@ -145,6 +145,10 @@ public:
 
 		return *this;
 	}
+
+private:
+
+	Slider_type m_value; // sizeof(Slider_type)b
 };
 
 

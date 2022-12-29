@@ -5,14 +5,14 @@
 #include "text.h"
 #include "engine.h"
 
-lyo::Surface lyo::Text::Create(lyo::c_string text, const Font& font, lyo::u32 color) noexcept
+lyo::Surface lyo::Text::Create(const lyo::String& text, const Font& font, lyo::u32 color) noexcept
 {
 	/* We're essentially counting on the user inputting a string that is < 256 chars. Whoops. */
-	constexpr int BUFFER_SIZE{ 256 };
+	const lyo::size buffer_size{ text.length() + 1};
 
-	wchar_t convert[BUFFER_SIZE];
+	wchar_t* convert{ new wchar_t[buffer_size] };
 
-	const int result{ ::MultiByteToWideChar(CP_ACP, NULL, text, -1, convert, BUFFER_SIZE) };
+	const int result{ ::MultiByteToWideChar(CP_ACP, NULL, text, -1, convert, SC<int>(buffer_size)) };
 
 	IF_DEBUG
 	{
@@ -49,6 +49,8 @@ lyo::Surface lyo::Text::Create(lyo::c_string text, const Font& font, lyo::u32 co
 		
 	SDL_Surface* temp_surface{ ::TTF_RenderUNICODE_LCD_Wrapped(font, RC<const Uint16*>(convert), lyo::HexToColor(color), {0, 0, 0, 0}, NULL)};
 
+	delete[] convert;
+
 	IF_DEBUG
 		if (!temp_surface)
 			Engine::Crash("TTF_RenderUTF8_LCD_Wrapped failed!");
@@ -58,7 +60,7 @@ lyo::Surface lyo::Text::Create(lyo::c_string text, const Font& font, lyo::u32 co
 
 
 
-lyo::Text::Text(const lyo::Window& window, const Font& font, lyo::c_string text, lyo::u32 color, double scale) noexcept :
+lyo::Text::Text(const lyo::Window& window, const Font& font, const lyo::String& text, lyo::u32 color, double scale) noexcept :
 	Texture	{ window, Text::Create(text, font, color), scale },
 	m_font	{ font },
 	m_text	{ text },
@@ -69,7 +71,7 @@ lyo::Text::Text(const lyo::Window& window, const Font& font, lyo::c_string text,
 
 
 
-void lyo::Text::set_font(lyo::c_string font_path) noexcept
+void lyo::Text::set_font(const lyo::String& font_path) noexcept
 {
 	if (!std::strcmp(font_path, m_font.path()))
 	{
@@ -96,7 +98,7 @@ const lyo::String& lyo::Text::content() SAFE
 
 
 
-void lyo::Text::operator=(lyo::c_string text) noexcept
+void lyo::Text::operator=(const lyo::String& text) noexcept
 {
 	m_text = text;
 	Texture::operator=(Text::Create(text, m_font, m_color));

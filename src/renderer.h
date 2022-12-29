@@ -12,10 +12,6 @@ NAMESPACE_DECL(lyo, class Engine; class Window)
 BEGIN_LYO_NAMESPACE
 class Renderer
 {
-	static SDL_Renderer* Create(lyo::Window& window, unsigned flags) noexcept;
-
-	lyo::Capsule<SDL_Renderer, ::SDL_DestroyRenderer> m_renderer; // 16b
-
 public:
 
 	Renderer(lyo::Window& window, unsigned flags) noexcept;
@@ -24,5 +20,11 @@ public:
 	void clear()	SAFE;
 
 	operator SDL_Renderer* () SAFE;
+
+private:
+
+	static SDL_Renderer* Create(lyo::Window& window, unsigned flags) noexcept;
+
+	lyo::Capsule<SDL_Renderer, ::SDL_DestroyRenderer> m_renderer; // 16b
 };
 END_LYO_NAMESPACE

@@ -19,19 +19,24 @@ struct SDL_Rect;
 BEGIN_LYO_NAMESPACE
 class Engine
 {
-	std::vector<lyo::Area::Window> m_displays;
-
 public:
+
+	using DisplayVector = std::vector<lyo::Area::Window>;
 
 	static std::ofstream Log;
 
-	static void Crash(lyo::c_string reason, lyo::c_string description = ::SDL_GetError()) noexcept;
+	static void Warn	(lyo::c_string reason) noexcept;
+	static void Crash	(lyo::c_string reason, lyo::c_string description = ::SDL_GetError()) noexcept;
 
 	Engine(Uint32 init_flags) noexcept;
 	DELETE_COPY_CTORS(Engine);
 
 	~Engine();
 
-	const std::vector<lyo::Area::Window>& displays() SAFE;
+	const DisplayVector& displays() SAFE;
+
+private:
+
+	DisplayVector m_displays;
 };
 END_LYO_NAMESPACE

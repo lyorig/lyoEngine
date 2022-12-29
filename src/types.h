@@ -89,9 +89,9 @@ struct Rectangle
 	// Overloaded comparison operator to test for overlaps.
 	constexpr bool operator|(const Rectangle& other) SAFE
 	{
-		return (x < other.x + other.width &&
-				x + width > other.x &&
-				y < other.y + other.height &&
+		return (x < other.x + other.width	&&
+				x + width > other.x			&&
+				y < other.y + other.height	&&
 				y + height > other.y);
 	}
 
@@ -114,6 +114,26 @@ struct Rectangle
 			SC<float>(y),
 			SC<float>(width),
 			SC<float>(height)
+		};
+	}
+
+	template <lyo::Arithmetic Point_type>
+	constexpr lyo::Point<Point_type> pos_point() SAFE
+	{
+		return lyo::Point<Point_type>
+		{
+			SC<Point_type>(x),
+			SC<Point_type>(y)
+		};
+	}
+
+	template <lyo::Arithmetic Point_type>
+	constexpr lyo::Point<Point_type> size_point() SAFE
+	{
+		return lyo::Point<Point_type>
+		{
+			SC<Point_type>(width),
+			SC<Point_type>(height)
 		};
 	}
 

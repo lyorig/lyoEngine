@@ -2,20 +2,22 @@
 #define NOMINMAX
 
 #include <Windows.h>
+
 #include "timer.h"
 #include "algorithm.h"
 
 const lyo::u32 lyo::Timer::m_freq
 {
-	[]() {
-		LARGE_INTEGER li;
-		::QueryPerformanceFrequency(&li);
-		return SC<lyo::u32>(li.QuadPart);
+	[]()
+	{
+		LARGE_INTEGER x;
+		::QueryPerformanceFrequency(&x);
+		return SC<lyo::u32>(x.QuadPart);
 	}()
 };
 
 lyo::Timer::Timer() noexcept :
-	m_startedAt{ this->get_tick() }
+	m_startedAt{ Timer::Tick() }
 {
 
 }
@@ -24,7 +26,7 @@ lyo::Timer::Timer() noexcept :
 
 lyo::Timer& lyo::Timer::reset() noexcept
 {
-	m_startedAt = this->get_tick();
+	m_startedAt = Timer::Tick();
 
 	return *this;
 }
@@ -34,13 +36,13 @@ lyo::Timer& lyo::Timer::reset() noexcept
 /* Addition / subtraction functions. */
 lyo::Timer& lyo::Timer::operator+=(double time) noexcept
 {
-	m_startedAt -= lyo::Cast::Signed<lyo::i64>(time * m_freq);
+	m_startedAt -= lyo::Cast::Unsigned<lyo::u64>(time * m_freq);
 	return *this;
 }
 
 lyo::Timer& lyo::Timer::operator-=(double time) noexcept
 {
-	m_startedAt += lyo::Cast::Signed<lyo::i64>(time * m_freq);
+	m_startedAt += lyo::Cast::Unsigned<lyo::u64>(time * m_freq);
 	return *this;
 }
 
@@ -49,14 +51,14 @@ lyo::Timer& lyo::Timer::operator-=(double time) noexcept
 /* Returns the elapsed time. */
 lyo::Timer::operator double() SAFE
 {
-	return SC<double>(this->get_tick() - m_startedAt) / m_freq;
+	return SC<double>(Timer::Tick() - m_startedAt) / m_freq;
 }
 
 
 
-lyo::i64 lyo::Timer::get_tick() SAFE
+lyo::u64 lyo::Timer::Tick() noexcept
 {
-	LARGE_INTEGER li;
-	::QueryPerformanceCounter(&li);
-	return li.QuadPart;
+	LARGE_INTEGER x;
+	::QueryPerformanceCounter(&x);
+	return x.QuadPart;
 }

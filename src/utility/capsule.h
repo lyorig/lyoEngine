@@ -8,28 +8,14 @@
    by Hitler himself, and if you were to ask me why it works, I seriously couldn't tell you. */
 
 BEGIN_LYO_NAMESPACE
-template <typename Type, lyo::Function<void, typename std::conditional<std::is_array_v<Type>, Type, Type*>::type> Deleter = nullptr>
+template <typename Type, lyo::Function<void, typename std::conditional_t<std::is_array_v<Type>, Type, Type*>> Deleter = nullptr>
 class Capsule
 {
-	void destroy() noexcept
-	{
-		COMPILE_IF(Deleter)
-			Deleter(m_pointer);
-
-		else COMPILE_IF(std::is_array_v<Type>)
-			delete[] m_pointer;
-
-		else delete m_pointer;
-	}
-
-	/* If Type is an array, std::remove_extent converts it into the base type. */
-	using BaseType		= std::remove_extent<Type>::type;
-	using CounterType	= lyo::u32;
-
-	BaseType*		m_pointer;	// 8b
-	CounterType*	m_count;	// 8b
-
 public:
+
+	/* If Type is an array, std::remove_extent_t converts it into the base type. */
+	using BaseType = std::remove_extent_t<Type>;
+	using CounterType = lyo::u32;
 
 	constexpr Capsule(BaseType* pointer = nullptr) noexcept :
 		m_pointer	{ pointer },
@@ -106,5 +92,21 @@ public:
 	{
 		return *m_pointer;
 	}
+
+private:
+
+	void destroy() noexcept
+	{
+		COMPILE_IF(Deleter)
+			Deleter(m_pointer);
+
+		else COMPILE_IF(std::is_array_v<Type>)
+			delete[] m_pointer;
+
+		else delete m_pointer;
+	}
+
+	BaseType* m_pointer;	// 8b
+	CounterType* m_count;	// 8b
 };
 END_LYO_NAMESPACE

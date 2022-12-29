@@ -3,6 +3,7 @@
 #include <SDL_pixels.h>
 #include <concepts>
 #include "concepts.h"
+#include "string.h"
 
 /* algorithms.h:
    Simple functions which don't fit elsewhere. */

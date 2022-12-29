@@ -24,7 +24,7 @@ lyo::Texture::Texture(const lyo::Window& window, const lyo::Surface& surface, do
 	m_texture	{ Texture::Create(window, surface) },
 	m_area		{ 0, 0, surface.width(), surface.height() },
 	m_size		{ m_area.width, m_area.height },
-	m_scale		{ scale * (window.width() / SC<double>(lyo::Settings::BWS.x)) },
+	m_scale		{ scale * (window.height() / SC<double>(lyo::Settings::BWS.y)) },
 	m_angle		{ angle },
 	m_flip		{ flip },
 	opacity		{ 255.0 }
@@ -67,7 +67,7 @@ void lyo::Texture::set_area(const lyo::Area::Texture& area) noexcept
 
 void lyo::Texture::set_scale(double value) noexcept
 {
-	m_scale = value * (m_window.width() / SC<double>(lyo::Settings::BWS.x));
+	m_scale = value * (m_window.height() / SC<double>(lyo::Settings::BWS.y));
 }
 
 void lyo::Texture::set_angle(double value) noexcept

@@ -12,19 +12,6 @@ BEGIN_LYO_NAMESPACE
 template <Character Char>
 class BasicString
 {
-	constexpr static Char* Alloc(lyo::size length, Char fill = SC<Char>('\0')) noexcept
-	{
-		return new Char[length + 1](SC<Char>(fill));
-	}
-
-	constexpr void copy(const Char* str, lyo::size position = 0) SAFE
-	{
-		std::memcpy(m_string + position, str, BasicString::Length(str) * sizeof(Char));
-	}
-	
-	lyo::size				m_length; // 8b
-	lyo::Capsule<Char[]>	m_string; // 16b	
-
 public:
 
 	constexpr static lyo::size Length(const Char* string) noexcept
@@ -112,6 +99,21 @@ public:
 	{
 		return m_string;
 	}
+
+private:
+
+	constexpr static Char* Alloc(lyo::size length, Char fill = SC<Char>('\0')) noexcept
+	{
+		return new Char[length + 1](SC<Char>(fill));
+	}
+
+	constexpr void copy(const Char* str, lyo::size position = 0) SAFE
+	{
+		std::memcpy(m_string + position, str, BasicString::Length(str) * sizeof(Char));
+	}
+
+	lyo::size				m_length; // 8b
+	lyo::Capsule<Char[]>	m_string; // 16b	
 };
 
 using String		= BasicString<char>;

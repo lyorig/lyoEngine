@@ -12,10 +12,6 @@
 BEGIN_LYO_NAMESPACE
 class Surface
 {
-	static SDL_Surface* Create(lyo::c_string file_name) noexcept;
-
-	lyo::Capsule<SDL_Surface, ::SDL_FreeSurface> m_surface; // 16b
-
 public:
 
 	Surface(lyo::c_string file_name) noexcept;
@@ -25,5 +21,11 @@ public:
 	lyo::ST::Texture height() SAFE;
 
 	operator SDL_Surface* () SAFE;
+
+private:
+
+	static SDL_Surface* Create(lyo::c_string file_name) noexcept;
+
+	lyo::Capsule<SDL_Surface, ::SDL_FreeSurface> m_surface; // 16b
 };
 END_LYO_NAMESPACE
