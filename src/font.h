@@ -15,9 +15,9 @@ class Font
 {
 public:
 
-	Font(lyo::c_string font_path, lyo::ST::Font size) noexcept;
+	Font(const lyo::String& font_path, lyo::ST::Font size) noexcept;
 
-	void operator=(lyo::c_string font_path) noexcept;
+	void operator=(const lyo::String& font_path) noexcept;
 
 	void set_size(lyo::ST::Font size) noexcept;
 
@@ -28,7 +28,7 @@ public:
 
 private:
 
-	static TTF_Font* Create(lyo::c_string font_path, lyo::ST::Font size) noexcept;
+	static TTF_Font* Create(const lyo::String& font_path, lyo::ST::Font size) noexcept;
 
 	lyo::Capsule<TTF_Font, ::TTF_CloseFont> m_font; // 16b
 

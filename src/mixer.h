@@ -39,7 +39,7 @@ public:
 
 	lyo::Music music; // 16b
 
-	Mixer(int frequency = MIX_DEFAULT_FREQUENCY, Uint16 format = MIX_DEFAULT_FORMAT, int channels = MIX_DEFAULT_CHANNELS, int chunksize = 2048) noexcept;
+	Mixer(int frequency = lyo::Settings::Music_Frequency, Uint16 format = MIX_DEFAULT_FORMAT, int channels = MIX_DEFAULT_CHANNELS, int chunksize = 2048) noexcept;
 
 	~Mixer();
 };

@@ -11,7 +11,7 @@ class Entity : public AnimatedTexture
 {
 public:
 
-	Entity(lyo::Window& window, lyo::c_string file_name, const lyo::AnimatedTexture::InitList it, const lyo::Size::Texture& frame_size, const lyo::Coordinate& position, double scale = 1.0, double time_to_update = lyo::Settings::Animation_TTU) noexcept;
+	Entity(lyo::Window& window, const lyo::String& file_name, const lyo::AnimatedTexture::InitList it, const lyo::Size::Texture& frame_size, const lyo::Coordinate& position, double scale = 1.0, double time_to_update = lyo::Settings::Animation_TTU) noexcept;
 
 	virtual void update() noexcept;
 

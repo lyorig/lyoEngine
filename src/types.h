@@ -5,6 +5,7 @@
 #include <SDL_rect.h>
 
 #include "macros.h"
+
 #include "utility/concepts.h"
 
 /* types.h:

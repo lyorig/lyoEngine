@@ -19,7 +19,7 @@ public:
 	lyo::Mixer& mixer;
 	lyo::Input& input;
 
-	Window(lyo::c_string name, lyo::Mixer& mixer, lyo::Input& input, const lyo::Size::Window& size = { 1920, 1080 }, Uint32 window_flags = lyo::Settings::Default_Window_Flags, Uint32 renderer_flags = lyo::Settings::Default_Renderer_Flags) noexcept;
+	Window(lyo::c_string name, lyo::Mixer& mixer, lyo::Input& input, const lyo::Size::Window& size = { 1920, 1080 }, Uint32 window_flags = lyo::Settings::Window_Flags, Uint32 renderer_flags = lyo::Settings::Renderer_flags) noexcept;
 
 	void set_name(lyo::c_string name) SAFE;
 	void draw();
@@ -42,7 +42,7 @@ private:
 
 	SDL_DisplayMode	m_info; // 24b
 
-	static SDL_Window* Create(lyo::c_string name, const lyo::Size::Window& size, unsigned flags) noexcept;
+	static SDL_Window*		Create(lyo::c_string name, const lyo::Size::Window& size, unsigned flags) noexcept;
 	static SDL_DisplayMode	GetDisplayInfo(int index) noexcept;
 };
 END_LYO_NAMESPACE

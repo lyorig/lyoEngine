@@ -3,7 +3,7 @@
 #include "settings.h"
 
 
-TTF_Font* lyo::Font::Create(lyo::c_string font_path, lyo::ST::Font size) noexcept
+TTF_Font* lyo::Font::Create(const lyo::String& font_path, lyo::ST::Font size) noexcept
 {
 	TTF_Font* temp_font{ ::TTF_OpenFont(font_path, size) };
 
@@ -16,7 +16,7 @@ TTF_Font* lyo::Font::Create(lyo::c_string font_path, lyo::ST::Font size) noexcep
 
 
 
-lyo::Font::Font(lyo::c_string font_path, lyo::ST::Font size) noexcept :
+lyo::Font::Font(const lyo::String& font_path, lyo::ST::Font size) noexcept :
 	m_font{ Font::Create(font_path, size) },
 	m_path{ font_path },
 	m_size{ size }
@@ -26,7 +26,7 @@ lyo::Font::Font(lyo::c_string font_path, lyo::ST::Font size) noexcept :
 
 
 
-void lyo::Font::operator=(lyo::c_string font_path) noexcept
+void lyo::Font::operator=(const lyo::String& font_path) noexcept
 {
 	/* This comparison might be unnecessary, as lyo::Text already 
 	   ensures the strings are different. */

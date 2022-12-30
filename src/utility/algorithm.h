@@ -2,6 +2,7 @@
 
 #include <SDL_pixels.h>
 #include <concepts>
+
 #include "concepts.h"
 #include "string.h"
 

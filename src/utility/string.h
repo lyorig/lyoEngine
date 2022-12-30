@@ -2,14 +2,15 @@
 
 #include "capsule.h"
 #include "concepts.h"
+
 #include "../types.h"
 
 /* string.h:
    Custom implementation of std::string, implemented with
-   a smart pointer (lyo::Capsule), which should make copying more efficient. */
+   lyo::Capsule, which should(!) make copying more efficient. */
 
 BEGIN_LYO_NAMESPACE
-template <Character Char>
+template <lyo::Character Char>
 class BasicString
 {
 public:
@@ -28,7 +29,6 @@ public:
 	constexpr BasicString() noexcept :
 		m_length{ 0 },
 		m_string{ Alloc(0) }
-		
 	{
 
 	}
@@ -50,37 +50,30 @@ public:
 
 	constexpr BasicString operator+(const BasicString& add) noexcept
 	{
-		BasicString str{ m_length + add.m_length };
-
-		str.copy(m_string);
-		str.copy(add, m_length);
-
-		return str;
+		return BasicString{ m_string } += add;
 	}
 
 	constexpr BasicString& operator+=(const BasicString& add) noexcept
 	{
-		Char* ptr{ m_string };
+		Char* buf{ Alloc(m_length + add.m_length) };
 
-		m_string = Alloc(m_length + add.m_length);
+		std::memcpy(buf, m_string, m_length * sizeof(Char));
+		std::memcpy(buf + m_length, add, add.m_length * sizeof(Char));
 
-		this->copy(ptr);
-		this->copy(add, m_length);
-
-		delete[] ptr;
+		m_string = buf;
 
 		m_length += add.m_length;
 
 		return *this;
 	}
 
-	constexpr bool operator==(const BasicString& add) SAFE
+	constexpr bool operator==(const BasicString& cmp) SAFE
 	{
-		if (m_length != add.length())
+		if (m_length != cmp.length())
 			return false;
 
 		for (lyo::size i{ 0 }; i < m_length; ++i)
-			if (m_string[i] != add[i])
+			if (m_string[i] != cmp[i])
 				return false;
 
 		return true;

@@ -8,7 +8,7 @@
 lyo::Surface lyo::Text::Create(const lyo::String& text, const Font& font, lyo::u32 color) noexcept
 {
 	/* We're essentially counting on the user inputting a string that is < 256 chars. Whoops. */
-	const lyo::size buffer_size{ text.length() + 1};
+	const lyo::size buffer_size{ text.length() + 1 };
 
 	wchar_t* convert{ new wchar_t[buffer_size] };
 

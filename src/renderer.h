@@ -1,6 +1,7 @@
 #pragma once
 
 #include "macros.h"
+
 #include "utility/capsule.h"
 
 /* renderer.h:

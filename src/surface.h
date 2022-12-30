@@ -3,6 +3,7 @@
 #include <SDL_surface.h>
 
 #include "types.h"
+
 #include "utility/string.h"
 #include "utility/capsule.h"
 

@@ -4,6 +4,7 @@
 #include <SDL_blendmode.h>
 
 #include "types.h"
+
 #include "utility/slider.h"
 #include "utility/capsule.h"
 

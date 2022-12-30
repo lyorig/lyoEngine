@@ -6,6 +6,7 @@
 #include "types.h"
 #include "texture.h"
 #include "settings.h"
+
 #include "utility/timer.h"
 #include "utility/string.h"
 

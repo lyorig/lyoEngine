@@ -22,5 +22,7 @@ public:
 private:
 
 	lyo::Bitset<SDL_NUM_SCANCODES, lyo::u64> m_pressed, m_held, m_released;
+
+	const Uint8* m_keyboardState;
 };
 END_LYO_NAMESPACE

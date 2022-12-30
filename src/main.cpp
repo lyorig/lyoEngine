@@ -33,8 +33,10 @@ int main(int argc, char* argv[])
 
 	const lyo::Font engine_font	{ FONT("montserrat.ttf"), 48 };
 
+	mixer.music = "assets/music/checkpoint.mp3";
+
 	{
-		lyo::Texture logo { window, "assets/sprites/haloda.png", 3.0 };
+		lyo::Texture logo{ window, "assets/sprites/haloda.png", 3.0 };
 		logo.set_area({ 192, 0, 64, 64 });
 		logo.opacity = 1.0;
 
@@ -77,6 +79,8 @@ int main(int argc, char* argv[])
 		}
 		
 		menu_timer.reset();
+		mixer.music.halt(load.opacity / OPACITY_DECR);
+
 		while (load.opacity != load.opacity.min() && !input.pressed(SDL_SCANCODE_ESCAPE))
 		{
 			load.opacity -= OPACITY_DECR * menu_timer;
@@ -124,6 +128,8 @@ int main(int argc, char* argv[])
 		ent.opacity = 255.0;
 		ent.update();
 	}
+
+	mixer.music = "assets/music/negotiations_over.mp3";
 
 	while (!input.pressed(SDL_SCANCODE_ESCAPE))
 	{

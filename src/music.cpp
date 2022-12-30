@@ -15,20 +15,21 @@ Mix_Music* lyo::Music::Create(lyo::c_string path) noexcept
 
 
 lyo::Music::Music(lyo::c_string path) noexcept :
-	m_music{ path ? Music::Create(path) : nullptr }
+	m_music	{ path ? Music::Create(path) : nullptr },
+	m_volume{ lyo::Settings::Music_Volume }
 {
 
 }
 
 
 
-void lyo::Music::play() SAFE
+void lyo::Music::play(double time) SAFE
 {
-	IF_DEBUG
-		if (!m_music)
-			Engine::Warn("Tried to play nullptr music.");
+	const int result{ ::Mix_FadeInMusic(m_music, 0, SC<int>(time * 1000)) };
 
-	if (m_music) ::Mix_PauseMusic();
+	IF_DEBUG
+		if (result == -1)
+			Engine::Crash("Mix_PlayMusic failed!");
 }
 
 void lyo::Music::pause() SAFE
@@ -37,7 +38,31 @@ void lyo::Music::pause() SAFE
 		if (!m_music)
 			Engine::Warn("Tried to pause nullptr music.");
 
+	if (m_music) ::Mix_PauseMusic();
+}
+
+void lyo::Music::resume() SAFE
+{
+	IF_DEBUG
+		if (!m_music)
+			Engine::Warn("Tried to resume nullptr music.");
+
 	if (m_music) ::Mix_ResumeMusic();
+}
+
+
+
+void lyo::Music::halt(double time) noexcept
+{
+	::Mix_FadeOutMusic(SC<int>(time * 1000));
+}
+
+
+
+void lyo::Music::set_volume(lyo::ST::Music volume) noexcept
+{
+	/* This has no way of failing, so no error checking. */
+	::Mix_VolumeMusic(m_volume = volume);
 }
 
 
@@ -45,6 +70,8 @@ void lyo::Music::pause() SAFE
 void lyo::Music::operator=(lyo::c_string path) noexcept
 {
 	m_music = Music::Create(path);
+
+	this->play();
 }
 
 
@@ -70,7 +97,8 @@ Mix_Chunk* lyo::Chunk::Create(lyo::c_string path) noexcept
 
 
 lyo::Chunk::Chunk(lyo::c_string path) noexcept :
-	m_chunk{ path ? Chunk::Create(path) : nullptr }
+	m_chunk	{ path ? Chunk::Create(path) : nullptr },
+	m_volume{ lyo::Settings::Chunk_Volume }
 {
 
 }
@@ -91,6 +119,17 @@ void lyo::Chunk::play(lyo::i8 amount_of_loops) SAFE
 	IF_DEBUG
 		if (result == -1)
 			Engine::Crash("Mix_PlayChannel failed!");
+}
+
+
+
+void lyo::Chunk::set_volume(lyo::ST::Music volume) noexcept
+{
+	IF_DEBUG
+		if (!m_chunk)
+			Engine::Warn("Tried to set volume of a nullptr chunk.");
+
+	if (m_chunk) ::Mix_VolumeChunk(m_chunk, m_volume = volume);
 }
 
 

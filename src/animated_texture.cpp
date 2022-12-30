@@ -47,7 +47,7 @@ void lyo::AnimatedTexture::update() noexcept
 	if (m_animationTimer >= m_timeToUpdate)
 	{
 		{
-			double rem{ m_animationTimer - m_timeToUpdate };
+			const double rem{ std::fmod(m_animationTimer, m_timeToUpdate) };
 			m_animationTimer.reset() += rem;
 		}
 	

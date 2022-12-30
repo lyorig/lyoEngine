@@ -5,7 +5,8 @@
 /* capsule.h:
    A custom implementation of std::shared_ptr.
    P.S.: Do not even attempt to edit this. Template metaprogramming was invented
-   by Hitler himself, and if you were to ask me why it works, I seriously couldn't tell you. */
+   by Hitler himself, and if you were to ask me why it works, I seriously couldn't tell you.
+   What Stroustrup said about blowing your leg off in C++ is absolutely true. Thanks, debugger! */
 
 BEGIN_LYO_NAMESPACE
 template <typename Type, lyo::Function<void, typename std::conditional_t<std::is_array_v<Type>, Type, Type*>> Deleter = nullptr>
@@ -34,6 +35,9 @@ public:
 
 	constexpr Capsule& operator=(const Capsule& other) noexcept
 	{
+		this->destroy();
+		delete m_count;
+
 		m_pointer	= other.m_pointer;
 		m_count		= other.m_count;
 
@@ -45,6 +49,9 @@ public:
 
 	constexpr Capsule(Capsule&& fwd) noexcept
 	{
+		this->destroy();
+		delete m_count;
+
 		this->m_pointer = fwd.m_pointer;
 		this->m_count	= fwd.m_count;
 
@@ -106,7 +113,7 @@ private:
 		else delete m_pointer;
 	}
 
-	BaseType* m_pointer;	// 8b
-	CounterType* m_count;	// 8b
+	BaseType*		m_pointer;	// 8b
+	CounterType*	m_count;	// 8b
 };
 END_LYO_NAMESPACE

@@ -2,6 +2,7 @@
 
 #include "concepts.h"
 #include "algorithm.h"
+
 #include "../types.h"
 #include "../settings.h"
 
