@@ -19,7 +19,7 @@ public:
 	
 	void operator=(lyo::c_string path) noexcept;
 
-	void play(double time = lyo::Settings::Music_Fade_Time) SAFE;
+	void play(double time = lyo::Settings::Music_Fade_Time, int loops = -1) SAFE;
 
 	void pause()	SAFE;
 	void resume()	SAFE;

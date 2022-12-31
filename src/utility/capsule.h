@@ -18,67 +18,70 @@ public:
 	using BaseType = std::remove_extent_t<Type>;
 	using CounterType = lyo::u32;
 
-	constexpr Capsule(BaseType* pointer = nullptr) noexcept :
-		m_pointer	{ pointer },
-		m_count		{ new CounterType{ 1 } }
+	constexpr Capsule() noexcept :
+		m_pointer	{ nullptr },
+		m_count		{ new CounterType{ 0U } }
 	{
 
 	}
 
-	constexpr Capsule(const Capsule& other) noexcept :
+	constexpr Capsule(BaseType* pointer) noexcept :
+		m_pointer	{ pointer },
+		m_count		{ new CounterType{ pointer ? 1U : 0U } } // In case some genius inputs a nullptr.
+	{
+		
+	}
+
+	explicit constexpr Capsule(const Capsule& other) noexcept :
 		m_pointer	{ other.m_pointer },
-		m_count		{ &(++(*other.m_count)) } // Increment, then get the address.
+		m_count		{ other.m_count }
 	{
 		if (other.m_pointer)
 			*m_count += 1;
+	}
+
+	explicit constexpr Capsule(Capsule&& fwd) noexcept
+	{
+		m_pointer = fwd.m_pointer;
+		m_count = fwd.m_count;
+
+		fwd.m_pointer = RC<BaseType*>(fwd.m_count = nullptr);
 	}
 
 	constexpr Capsule& operator=(const Capsule& other) noexcept
 	{
-		this->destroy();
-		delete m_count;
+		if (this != &other)
+		{
+			this->destroy();
 
-		m_pointer	= other.m_pointer;
-		m_count		= other.m_count;
+			m_pointer = other.m_pointer;
+			m_count = other.m_count;
 
-		if (other.m_pointer)
-			*m_count += 1;
+			if (m_pointer)
+				*m_count += 1;
+		}
 
 		return *this;
 	}
 
-	constexpr Capsule(Capsule&& fwd) noexcept
+	constexpr Capsule& operator=(Capsule&& fwd) noexcept
 	{
 		this->destroy();
-		delete m_count;
 
-		this->m_pointer = fwd.m_pointer;
-		this->m_count	= fwd.m_count;
+		m_pointer	= fwd.m_pointer;
+		m_count		= fwd.m_count;
 
-		fwd.m_pointer	= RC<BaseType*>(fwd.m_count = nullptr);
+		fwd.m_pointer = RC<BaseType*>(fwd.m_count = nullptr);
+		
+		return *this;
 	}
 
 	constexpr ~Capsule()
 	{
-		if (--(*m_count) == 0)
-		{
-			if (m_pointer)
-				this->destroy();
-
-			delete m_count;
-		}
-	}
-
-
-
-	constexpr void operator=(BaseType* pointer) noexcept
-	{
 		this->destroy();
-
-		m_pointer = pointer;
 	}
 
-
+	
 
 	constexpr CounterType use_count() SAFE
 	{
@@ -104,13 +107,22 @@ private:
 
 	void destroy() noexcept
 	{
-		COMPILE_IF(Deleter)
-			Deleter(m_pointer);
+		/* If m_pointer is a nullptr, m_count is either also
+		   a nullptr or shouldn't be decremented. Short circuiting
+		   ensures that it won't be accessed if the former check fails. */
 
-		else COMPILE_IF(std::is_array_v<Type>)
-			delete[] m_pointer;
+		if (m_pointer && --(*m_count) == 0)
+		{
+			COMPILE_IF(Deleter)
+				Deleter(m_pointer);
 
-		else delete m_pointer;
+			else COMPILE_IF(std::is_array_v<Type>)
+					delete[] m_pointer;
+
+			else delete m_pointer;
+
+			delete m_count;
+		}
 	}
 
 	BaseType*		m_pointer;	// 8b

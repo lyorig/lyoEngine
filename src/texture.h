@@ -30,9 +30,9 @@ public:
 
 	lyo::ST::Texture	width()		SAFE;
 	lyo::ST::Texture	height()	SAFE;
-	double					scale()		SAFE;
-	double					angle()		SAFE;
-	SDL_RendererFlip		flip()		SAFE;
+	double				scale()		SAFE;
+	double				angle()		SAFE;
+	SDL_RendererFlip	flip()		SAFE;
 
 	/* Returns a coordinate such that using it with draw() will render
 	   the texture in the center of the window. */

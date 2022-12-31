@@ -19,7 +19,7 @@ namespace Settings
 	SETTING double	Animation_TTU	{ 0.1 };	// The default animation update time of lyo::AnimatedTexture.
 
 	SETTING lyo::u32 Window_Flags	{ SDL_WINDOW_FULLSCREEN_DESKTOP };							// Default window flags.
-	SETTING lyo::u32 Renderer_flags	{ SDL_RENDERER_ACCELERATED };	// Default renderer flags for a window.
+	SETTING lyo::u32 Renderer_flags	{ SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC };	// Default renderer flags.
 
 	SETTING lyo::ST::Music	Music_Volume	{ 80 };		// The default volume for music.
 	SETTING lyo::ST::Music	Chunk_Volume	{ 80 };		// The default volume for SFX.

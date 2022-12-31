@@ -8,14 +8,14 @@ Mix_Music* lyo::Music::Create(lyo::c_string path) noexcept
 	IF_DEBUG
 		if (!temp_music)
 			Engine::Crash("Mix_LoadMUS failed!");
-
+	
 	return temp_music;
 }
 
 
 
 lyo::Music::Music(lyo::c_string path) noexcept :
-	m_music	{ path ? Music::Create(path) : nullptr },
+	m_music	{ path ? ::Mix_LoadMUS(path) : nullptr },
 	m_volume{ lyo::Settings::Music_Volume }
 {
 
@@ -23,9 +23,9 @@ lyo::Music::Music(lyo::c_string path) noexcept :
 
 
 
-void lyo::Music::play(double time) SAFE
+void lyo::Music::play(double time, int loops) SAFE
 {
-	const int result{ ::Mix_FadeInMusic(m_music, 0, SC<int>(time * 1000)) };
+	const int result{ ::Mix_FadeInMusic(m_music, loops, SC<int>(time * 1000)) };
 
 	IF_DEBUG
 		if (result == -1)
@@ -69,9 +69,11 @@ void lyo::Music::set_volume(lyo::ST::Music volume) noexcept
 
 void lyo::Music::operator=(lyo::c_string path) noexcept
 {
-	m_music = Music::Create(path);
+	m_music = ::Mix_LoadMUS(path);
 
-	this->play();
+	IF_DEBUG
+		if (!m_music)
+			Engine::Crash("Mix_LoadMUS failed!");
 }
 
 
@@ -89,7 +91,7 @@ Mix_Chunk* lyo::Chunk::Create(lyo::c_string path) noexcept
 
 	IF_DEBUG
 		if (!temp_chunk)
-			Engine::Crash("Mix_LoadWAV failed!");
+			Engine::Crash("Mix_LoadMUS failed!");
 
 	return temp_chunk;
 }
@@ -97,7 +99,7 @@ Mix_Chunk* lyo::Chunk::Create(lyo::c_string path) noexcept
 
 
 lyo::Chunk::Chunk(lyo::c_string path) noexcept :
-	m_chunk	{ path ? Chunk::Create(path) : nullptr },
+	m_chunk	{ path ? ::Mix_LoadWAV(path) : nullptr},
 	m_volume{ lyo::Settings::Chunk_Volume }
 {
 

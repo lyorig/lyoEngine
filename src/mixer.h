@@ -11,7 +11,7 @@
 
 struct Mix_Chunk;
 
-enum class Sound : lyo::u8
+enum class SFX : lyo::u8
 {
 	MenuClick,
 	MenuRelease,
@@ -27,6 +27,7 @@ enum class Sound : lyo::u8
 	/* u8 could be larger when using fast integer types, but we'll
 	   stick with 255, as we really don't want someone accidentally
 	   allocating an array of 2,147,483,647 objects. */
+
 	MaxAmount = 255
 };
 
@@ -35,7 +36,7 @@ class Mixer
 {
 public:
 
-	std::unordered_map<Sound, lyo::Chunk> sfx; // 80b
+	std::unordered_map<SFX, lyo::Chunk> sfx; // 80b
 
 	lyo::Music music; // 16b
 

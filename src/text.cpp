@@ -1,5 +1,6 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
+
 #include <Windows.h>
 
 #include "text.h"
@@ -71,7 +72,7 @@ lyo::Text::Text(const lyo::Window& window, const Font& font, const lyo::String& 
 
 
 
-void lyo::Text::set_font(const lyo::String& font_path) noexcept
+void lyo::Text::set_font(lyo::c_string font_path) noexcept
 {
 	if (!std::strcmp(font_path, m_font.path()))
 	{
@@ -85,7 +86,7 @@ void lyo::Text::set_color(lyo::u32 color) noexcept
 	if (color != m_color)
 	{
 		m_color = color;
-		Texture::operator=(Text::Create(m_text, m_font, color));
+		Texture::operator=(Text::Create(m_text, m_font, m_color));
 	}
 }
 
@@ -98,8 +99,8 @@ const lyo::String& lyo::Text::content() SAFE
 
 
 
-void lyo::Text::operator=(const lyo::String& text) noexcept
+void lyo::Text::operator=(const lyo::c_string text) noexcept
 {
 	m_text = text;
-	Texture::operator=(Text::Create(text, m_font, m_color));
+	Texture::operator=(Text::Create(m_text, m_font, m_color));
 }

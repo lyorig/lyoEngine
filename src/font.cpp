@@ -2,7 +2,6 @@
 #include "engine.h"
 #include "settings.h"
 
-
 TTF_Font* lyo::Font::Create(const lyo::String& font_path, lyo::ST::Font size) noexcept
 {
 	TTF_Font* temp_font{ ::TTF_OpenFont(font_path, size) };

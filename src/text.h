@@ -17,12 +17,12 @@ public:
 
 	Text(const lyo::Window& window, const Font& font, const lyo::String& text, lyo::u32 color = 0xFFFFFF, double scale = 1.0) noexcept;
 
-	void set_font	(const lyo::String& font_path)	noexcept;
+	void set_font	(lyo::c_string font_path)	noexcept;
 	void set_color	(lyo::u32 color)				noexcept;
 
 	const lyo::String& content() SAFE;
 
-	void operator=(const lyo::String& text) noexcept;
+	void operator=(lyo::c_string text) noexcept;
 
 private:
 

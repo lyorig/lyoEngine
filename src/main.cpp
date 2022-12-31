@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 		lyo::Engine::Log << std::endl;
 	}
 
-	const lyo::Engine engine{ SDL_INIT_VIDEO | SDL_INIT_AUDIO };
+	const lyo::Engine engine{SDL_INIT_VIDEO | SDL_INIT_AUDIO};
 
 	lyo::Mixer mixer;
 	lyo::Input input;
@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 	const lyo::Font engine_font	{ FONT("montserrat.ttf"), 48 };
 
 	mixer.music = "assets/music/checkpoint.mp3";
+	mixer.music.play(4.0, 0);
 
 	{
 		lyo::Texture logo{ window, "assets/sprites/haloda.png", 3.0 };
@@ -71,9 +72,7 @@ int main(int argc, char* argv[])
 			input.update();
 		}
 
-		menu_timer.reset();
-
-		while (menu_timer < 3.0 && !input.pressed(SDL_SCANCODE_ESCAPE) && !input.pressed(SDL_SCANCODE_RETURN))
+		while (!input.pressed(SDL_SCANCODE_ESCAPE) && !input.pressed(SDL_SCANCODE_RETURN))
 		{
 			input.update();
 		}
@@ -130,6 +129,7 @@ int main(int argc, char* argv[])
 	}
 
 	mixer.music = "assets/music/negotiations_over.mp3";
+	mixer.music.play();
 
 	while (!input.pressed(SDL_SCANCODE_ESCAPE))
 	{
